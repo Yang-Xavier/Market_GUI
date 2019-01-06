@@ -3,20 +3,27 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.LayoutManager;
+import java.awt.List;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 import javax.swing.BoxLayout;
+import javax.swing.ComboBoxEditor;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import tool.CheckingStock;
@@ -26,12 +33,13 @@ import tool.DateSelection;
 public class EntryGUI extends JFrame{
 	final private int WIDTH = 600, HEIGHT = 150;
 	private CheckingStock stock; // This object contains all of information about the stock such as ticker, start date and end date
-	private JComboBox<String> tickerSelectBox, startDay, startMonth, startYear, endDay, endMonth, endYear;
-	private JLabel tickerLabel,startLabel, endLabel, sdayLabel, smonthLabel, syearLabel, edayLabel, emonthLabel, eyearLabel;
+	private JComboBox<String> tickerSelectBox;
+	private JLabel tickerLabel,startLabel, endLabel;
 	private JPanel left, center, ctop, cmiddle, cbottom;
 	private Consumer<CheckingStock> callback; // This is a callback function
 	private JButton checkBottom;
-	private DateSelection startDateSelection, endDateSelection;
+	public DateSelection startDateSelection, endDateSelection;
+	
 	
 	public EntryGUI() {
 		Dimension screenSize =Toolkit.getDefaultToolkit().getScreenSize();  // Get the size of the screen
@@ -54,24 +62,27 @@ public class EntryGUI extends JFrame{
 		tickerLabel = new JLabel("  Ticker :");
 		startLabel = new JLabel("  Start Date :");
 		endLabel = new JLabel("  End Date :");
-		smonthLabel = new JLabel("Month");
-		syearLabel = new JLabel("Year");
-		sdayLabel = new JLabel("Day");
-		emonthLabel = new JLabel("Month");
-		eyearLabel = new JLabel("Year");
-		edayLabel = new JLabel("Day");
 		
 		// all drop boxes
 		tickerSelectBox = new JComboBox<>(Constant.TICKERSNAME);
-		startDay = new  JComboBox<>();
-		startMonth = new  JComboBox<>();
-		startYear = new  JComboBox<>();
-		endDay = new  JComboBox<>();
-		endMonth = new  JComboBox<>();
-		endYear = new  JComboBox<>();
 		
 		// inquie bottom
 		checkBottom = new JButton("Inquire");
+		checkBottom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(checkDateValidation()) {
+					stock.setTiker(Constant.TICKERMAP.get((String)tickerSelectBox.getSelectedItem()), (String)tickerSelectBox.getSelectedItem());
+					stock.setStart(startDateSelection.getFormatDate());
+					stock.setEnd(endDateSelection.getFormatDate());
+					stock.setNumRows(300);
+					// Open a market viewer
+					openCheckPane(stock);
+				} else {
+					JOptionPane.showMessageDialog(null, "Please make sure the end date is over the start date.","Notice",JOptionPane.WARNING_MESSAGE);  
+				}
+			}
+		});
 		
 		// date selection 
 		startDateSelection = new DateSelection();
@@ -84,19 +95,9 @@ public class EntryGUI extends JFrame{
 		ctop.add(tickerSelectBox);
 		ctop.add(checkBottom);
 		
-		cmiddle.add(startYear);
-		cmiddle.add(syearLabel);
-		cmiddle.add(startMonth);
-		cmiddle.add(smonthLabel);
-		cmiddle.add(startDay);
-		cmiddle.add(sdayLabel);
-		
-		cbottom.add(endYear);
-		cbottom.add(eyearLabel);
-		cbottom.add(endMonth);
-		cbottom.add(emonthLabel);
-		cbottom.add(endDay);
-		cbottom.add(edayLabel);
+		// get DateSelection panel
+		cmiddle.add(startDateSelection.getDateSelectionPanel());
+		cbottom.add(endDateSelection.getDateSelectionPanel());
 		
 		center.add(ctop);
 		center.add(cmiddle);
@@ -104,10 +105,16 @@ public class EntryGUI extends JFrame{
 		
 		add(left, BorderLayout.WEST);
 		add(center, BorderLayout.CENTER);
+		
+		startDateSelection.initDateSelection(false);
+		endDateSelection.initDateSelection(true);
 	}
 	
-	public void updateDateSelection() {
-		
+	public boolean checkDateValidation() {
+		// Translate date string into an integer and use start date minus end date if result is below 0 that would be valid otherwise would be invalid
+		String start = String.format("%04d", startDateSelection.getSelectedYear())+String.format("%02d", startDateSelection.getSelectedMonth())+String.format("%02d", startDateSelection.getSelectedDay());
+		String end = String.format("%04d", endDateSelection.getSelectedYear())+String.format("%02d", endDateSelection.getSelectedMonth())+String.format("%02d", endDateSelection.getSelectedDay());
+		return Integer.parseInt(start)-Integer.parseInt(end) < 0;
 	}
 	
 	public void setCallback(Consumer<CheckingStock> callback) {

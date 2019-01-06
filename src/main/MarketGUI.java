@@ -5,11 +5,13 @@ import java.util.function.Function;
 
 import tool.CheckingStock;
 import ui.EntryGUI;
+import ui.MarketView;
 
 public class MarketGUI {
 	// callback function
 	Consumer<CheckingStock> callCheck = (stock) -> {
-		System.out.println("123");
+		MarketView marketView = new MarketView(stock);
+//		marketView
 	};
 	
 	public void init() {
