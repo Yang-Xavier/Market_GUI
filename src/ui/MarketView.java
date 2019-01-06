@@ -9,6 +9,7 @@ public class MarketView extends JFrame{
 	public MarketView(CheckingStock stock) {
 		this.stock = stock;
 		
+		
 	}
 	
 	public void display() {
