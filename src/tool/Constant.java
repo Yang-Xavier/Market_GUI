@@ -5,11 +5,24 @@ import java.util.HashMap;
 public class Constant {
 	public final static String[] 
 			TICKERSNAME= {
-			"A Clean Slate Inc. (DRWN)", "B Communications Ltd. (BCOM)", "C M Holdings PLC (COLON)", "D&F Roalba S.A. (S0731)",
-			"E for L Aim PCL (EFORL)", "F&C Capital & Income Investment Trust PLC (FCI)", "G Capital PCL (GCAP)"
+			"Apple Inc.", 
+//			"B Communications Ltd. (BCOM)", 
+//			"C M Holdings PLC (COLON)", 
+//			"D&F Roalba S.A. (S0731)",
+//			"A&T Corp. (6722)", 
+//			"F&C Capital & Income Investment Trust PLC (FCI)", 
+//			"G Capital PCL (GCAP)"
 			}, 
 			
-			TICKERS = {"DRWN", "BCOM","COLON","S0731","EFORL", "FCI", "GCAP"};
+			TICKERS = {
+					"AAPL", 
+//					"BCOM",
+//					"COLON",
+//					"S0731",
+//					"XTKS",
+//					"FCI", 
+//					"GCAP"
+					};
 	
 	public final static HashMap<String, String> TICKERMAP = createTickers();
 			

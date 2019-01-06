@@ -11,7 +11,8 @@ public class MarketGUI {
 	// callback function
 	Consumer<CheckingStock> callCheck = (stock) -> {
 		MarketView marketView = new MarketView(stock);
-//		marketView
+		marketView.setVisible(true);
+		marketView.display();
 	};
 	
 	public void init() {
