@@ -14,8 +14,7 @@ public class DrawableStock {
 	Rectangle volumeRectangle;
 	Color color;
 	
-	JPanel KLine;
-	JPanel Volume;
+	JPanel itemPanel;
 	
 	public Line getLine() {
 		return line;
@@ -41,16 +40,11 @@ public class DrawableStock {
 	public void setVolumeRectangle(Rectangle volumeRectangle) {
 		this.volumeRectangle = volumeRectangle;
 	}
-	public JPanel getKLine() {
-		return KLine;
+	public JPanel getItemPanel() {
+		return itemPanel;
 	}
-	public void setKLine(JPanel kLine) {
-		KLine = kLine;
+	public void setItemPanel(JPanel itemPanel) {
+		this.itemPanel = itemPanel;
 	}
-	public JPanel getVolume() {
-		return Volume;
-	}
-	public void setVolume(JPanel volume) {
-		Volume = volume;
-	}
+	
 }
