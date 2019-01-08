@@ -6,7 +6,9 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import stock.KLinePanel;
 import stock.StockDayItem;
+import stock.VolumePanel;
 import tool.CheckingStock;
 import tool.MyRequest;
 import tool.MyURL;
@@ -19,7 +21,7 @@ public class MarketView extends JFrame{
 	
 	final private int WIDTH = 800, HEIGHT = 600;
 	final private int HEADERHEIGHT = 400; 
-	final private int STEPWIDTH = 10; 
+	final private int STEPWIDTH = 20; 
 	// Header panel for showing k line graph and footer panel for showing the volume graph
 	
 	public MarketView(CheckingStock stock) {
@@ -36,7 +38,21 @@ public class MarketView extends JFrame{
 		String feedback = MyRequest.get(myURL);
 		Parse parse = new Parse();
 		dayItems = parse.paeseStockDataToArraylist(feedback);
-		dayItems = parse.processToDraw(dayItems, HEIGHT, HEADERHEIGHT, STEPWIDTH);
+		dayItems = parse.processToDrawable(dayItems, HEIGHT, HEADERHEIGHT, STEPWIDTH);
 		
+		createGraphPanel(dayItems);
 	}
+	
+	void createGraphPanel(ArrayList<StockDayItem> items) {
+		for (StockDayItem item: items) {
+			item.getDrawableStock().setKLine(new KLinePanel(item.getDrawableStock().getRectangle(), item.getDrawableStock().getLine()));
+			item.getDrawableStock().setVolume(new VolumePanel(item.getDrawableStock().getVolumeRectangle()));
+		}
+	}
+	
+	
+	
+	
+	
+	
 }

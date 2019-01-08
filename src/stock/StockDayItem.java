@@ -3,8 +3,17 @@ package stock;
 public class StockDayItem {
 	private String date;
 	private float open, hight, low, close, volume;
+	private DrawableStock drawableStock;
 	
 	
+	public DrawableStock getDrawableStock() {
+		return drawableStock;
+	}
+
+	public void setDrawableStock(DrawableStock drawableStock) {
+		this.drawableStock = drawableStock;
+	}
+
 	public StockDayItem(String date, String open, String hight, String low, String close, String volume) {
 		this.date = date;
 		this.open = Float.parseFloat(open);

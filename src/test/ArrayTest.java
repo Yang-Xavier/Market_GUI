@@ -1,5 +1,10 @@
-package tool;
+package test;
 
+import java.util.ArrayList;
+
+import stock.StockDayItem;
+import tool.MyRequest;
+import tool.MyURL;
 import java.util.List;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -9,13 +14,38 @@ import stock.Line;
 import stock.Rectangle;
 import stock.StockDayItem;
 
+public class ArrayTest {
+	 public static int WIDTH = 800, HEIGHT = 600;
+	 public static int HEADERHEIGHT = 400; 
+	 public static int STEPWIDTH = 10; 
 
-/**
-   This parse tool is mainly to process the stock inquiring data and store into the object StockDayItem then collect them into an ArrayList.
- */
-public class Parse {
-	private float pmax= Float.MIN_VALUE, pmin=Float.MAX_VALUE, pmiddle, pscale; // These variables are price's parameters of normalisation
-	private float vmax= Float.MIN_VALUE, vmin= Float.MAX_VALUE, vmiddle, vscale; // These variables are volume's parameters of normalisation
+	  
+	public static void main(String[] args) {
+		ArrayList<StockDayItem> dayItems;
+		String feedback = MyRequest.get(new MyURL("AAPL","10","01/01/2018","12/31/2018"));
+		Parse parse = new Parse();
+		dayItems = parse.paeseStockDataToArraylist(feedback);
+		dayItems = parse.processToDrawable(dayItems, HEIGHT, HEADERHEIGHT, STEPWIDTH);
+		
+		
+		
+		for (StockDayItem item: dayItems) {
+			System.out.println(item.getDrawableStock().getRectangle().height);
+//			System.out.println(item.getHight() + " " + parse.pscale +  " " +  parse.pmiddle);
+//			System.out.println(parse.doNormalisationAndSaveToInt(item.getHight(), 100f, parse.pscale, parse.pmiddle));
+		}
+		
+//		String[] a = {"1","2","3","4","5","6"};
+//		normalisation(a);
+//		System.out.println();
+	}
+	
+	
+}
+
+class Parse {
+	public float pmax= Float.MIN_VALUE, pmin=Float.MAX_VALUE, pmiddle, pscale; // These variables are price's parameters of normalisation
+	public float vmax= Float.MIN_VALUE, vmin= Float.MAX_VALUE, vmiddle, vscale; // These variables are volume's parameters of normalisation
 	
 	public ArrayList<StockDayItem> paeseStockDataToArraylist (String data) {
 		ArrayList<StockDayItem> stockDayItems = new ArrayList<StockDayItem>();
@@ -68,7 +98,7 @@ public class Parse {
 			rectangle.width = itemWidth;
 			float normalClose = doNormalisationAndSaveToFloat(data.getClose(), 1, pscale, pmiddle);
 			float normalOpen = doNormalisationAndSaveToFloat(data.getOpen(), 1, pscale, pmiddle);
-			rectangle.height = Math.round(Math.abs(normalClose-normalOpen)*headerHeight)+1; //  avoid zero
+			rectangle.height = Math.round(Math.abs(normalClose-normalOpen)*headerHeight);
 			
 			Rectangle volumeRectangle = new Rectangle(); // Volume 
 			volumeRectangle.x = widthMiddle - itemWidth/2;
@@ -106,12 +136,12 @@ public class Parse {
 	}
 	
 	// This function would do normalisation for the data according to the parameters calculated before and finally transfer to integer
-	int doNormalisationAndSaveToInt(float data, float standScale, float nScale, float middle) {
+	public int doNormalisationAndSaveToInt(float data, float standScale, float nScale, float middle) {
 		data = standScale*(data-middle)/nScale;
 		return (int)Math.round(data);
 	}
 	
-	float doNormalisationAndSaveToFloat(float data, float standScale, float nScale, float middle) {
+	public float doNormalisationAndSaveToFloat(float data, float standScale, float nScale, float middle) {
 		data = standScale*(data-middle)/nScale;
 		return data;
 	}
