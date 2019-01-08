@@ -34,7 +34,7 @@ public class MarketView extends JFrame{
 		
 		Dimension screenSize =Toolkit.getDefaultToolkit().getScreenSize();  // Get the size of the screen
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setTitle(stock.getStockName());
+		setTitle(stock.getStockName() + " " + stock.getStart() + "---" + stock.getEnd());
 		setSize(WIDTH, HEIGHT+50); // avoid the horizontal scroll bar
 		setLocation(screenSize.width/2- WIDTH/2, screenSize.height/2-HEIGHT/2);  // Maker sure the window opening in the centre
 		
@@ -75,6 +75,7 @@ public class MarketView extends JFrame{
 		for (StockDayItem item: items) {
 			mainPanel.add(item.getDrawableStock().getItemPanel());
 		}
+	
 		jScrollPane.setViewportView(mainPanel);
 		add(jScrollPane);
 	}

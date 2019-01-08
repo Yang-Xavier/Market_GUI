@@ -72,9 +72,9 @@ public class Parse {
 			
 			Rectangle volumeRectangle = new Rectangle(); // Volume 
 			volumeRectangle.x = widthMiddle - itemWidth/2;
-			volumeRectangle.y = footerHeight - doNormalisationAndSaveToInt(data.getVolume(), headerHeight, vscale, vmiddle);
+			volumeRectangle.y = footerHeight - doNormalisationAndSaveToInt(data.getVolume(), height-headerHeight, vscale, vmiddle);
 			volumeRectangle.width = itemWidth;
-			volumeRectangle.height = doNormalisationAndSaveToInt(data.getVolume(), headerHeight, vscale, vmiddle);
+			volumeRectangle.height = doNormalisationAndSaveToInt(data.getVolume(), height-headerHeight, vscale, vmiddle);
 			
 			Color color; 
 			if(data.getClose() > lastClose) {
