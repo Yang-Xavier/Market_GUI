@@ -1,0 +1,58 @@
+package stock;
+
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Point;
+import java.math.BigDecimal;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+public class InformationDialog extends JDialog{
+	private int WIDTH = 200,HEIGHT = 200;
+	private JFrame parent;
+	private InformLabel  highLabel, lowLabel, closeLabel, openLabel, volumeLabel, dateLabel;
+	private String high = "   High: %.2f", low = "   Low: %.2f", close = "   Close: %.2f", open = "   Open: %.2f", volume = "   Volume: %s", date = "   Date: %s";
+	
+	public InformationDialog(JFrame parent) {
+		this.parent = parent;
+		Point positon = parent.getLocation();
+		Dimension size = parent.getSize();
+		
+		highLabel = new InformLabel();
+		lowLabel = new InformLabel();
+		closeLabel = new InformLabel();
+		openLabel = new InformLabel();
+		volumeLabel = new InformLabel();
+		dateLabel = new InformLabel();
+		
+		setSize(WIDTH, HEIGHT);
+		setLocation(positon.x+(size.width-WIDTH),positon.y);
+		setAlwaysOnTop(true);
+		setLayout(new GridLayout(6, 1));
+		
+		add(dateLabel);
+		add(openLabel);
+		add(closeLabel);
+		add(highLabel);
+		add(lowLabel);
+		add(volumeLabel);
+	}
+	
+	public void updateInformation(StockDayItem item) {
+		highLabel.setText(String.format(high, item.getHight()));
+		lowLabel.setText(String.format(low, item.getLow()));
+		closeLabel.setText(String.format(close, item.getClose()));
+		openLabel.setText(String.format(open, item.getOpen()));
+		dateLabel.setText(String.format(date, item.getDate()));
+		volumeLabel.setText(String.format(volume, (new BigDecimal(item.getVolume())).toPlainString()));
+	}
+	
+	class InformLabel extends JLabel{
+		public InformLabel() {
+			setFont(new Font("arial", Font.BOLD, 15));
+		}
+	}
+}

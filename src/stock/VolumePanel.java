@@ -17,7 +17,8 @@ public class VolumePanel extends JPanel{
 		this.volumeRectangle = volumeRectangle;
 		this.color = color;
 		
-		setOpaque(true);
+		setOpaque(false);
+		setBackground(null);
 	}
 	
 	@Override

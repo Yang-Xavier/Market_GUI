@@ -14,8 +14,8 @@ import stock.StockDayItem;
    This parse tool is mainly to process the stock inquiring data and store into the object StockDayItem then collect them into an ArrayList.
  */
 public class Parse {
-	private float pmax= Float.MIN_VALUE, pmin=Float.MAX_VALUE, pmiddle, pscale; // These variables are price's parameters of normalisation
-	private float vmax= Float.MIN_VALUE, vmin= Float.MAX_VALUE, vmiddle, vscale; // These variables are volume's parameters of normalisation
+	public float pmax= Float.MIN_VALUE, pmin=Float.MAX_VALUE, pmiddle, pscale; // These variables are price's parameters of normalisation
+	public float vmax= Float.MIN_VALUE, vmin= Float.MAX_VALUE, vmiddle, vscale; // These variables are volume's parameters of normalisation
 	
 	public ArrayList<StockDayItem> paeseStockDataToArraylist (String data) {
 		ArrayList<StockDayItem> stockDayItems = new ArrayList<StockDayItem>();
@@ -27,11 +27,6 @@ public class Parse {
 			normalisation(items);
 		}
 		
-//		for(int i =1; i<5; i++) {
-//			String[] items = dataitem[i].split(",");
-//			stockDayItems.add(new StockDayItem(items[0], items[1], items[2], items[3], items[4], items[5]));
-//			normalisation(items);
-//		}
 		pmiddle = (pmax + pmin) / 2;
 		vmiddle = 0;
 		pscale = pmax - pmin;

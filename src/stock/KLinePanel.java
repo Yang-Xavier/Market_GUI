@@ -19,7 +19,8 @@ public class KLinePanel extends JPanel{
 		this.line = line;
 		this.color = color;
 		
-		setOpaque(true);
+		setOpaque(false);
+		setBackground(null);
 	}
 	
 	@Override
