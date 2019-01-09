@@ -6,22 +6,14 @@ public class Constant {
 	public final static String[] 
 			TICKERSNAME= {
 			"Apple Inc.", 
-//			"B Communications Ltd. (BCOM)", 
-//			"C M Holdings PLC (COLON)", 
-//			"D&F Roalba S.A. (S0731)",
-//			"A&T Corp. (6722)", 
-//			"F&C Capital & Income Investment Trust PLC (FCI)", 
-//			"G Capital PCL (GCAP)"
+			"Balchem Corp. (BCPC)", 
+			"C.H. Robinson Worldwide Inc. (CHRW)", 
 			}, 
 			
 			TICKERS = {
 					"AAPL", 
-//					"BCOM",
-//					"COLON",
-//					"S0731",
-//					"XTKS",
-//					"FCI", 
-//					"GCAP"
+					"BCPC",
+					"CHRW",
 					};
 	
 	public final static HashMap<String, String> TICKERMAP = createTickers();

@@ -57,10 +57,10 @@ public class ScalePanel extends JPanel{
 		for(int i=0;i<scaleN;i++) {
 			JLabel label = new JLabel();
 			label.setForeground(new Color(186, 186, 186));
-			int ds = Math.round((min+ i*(max-min)/((float)scaleN-1))/1000000); 
+			float ds = (min+ i*(max-min)/((float)scaleN-1))/1000000f; 
 			int dh = Math.round(i*(height)/(scaleN-1)); 
 			
-			label.setText(""+ds);
+			label.setText(String.format("%.2f", ds));
 			label.setBounds(0, height-dh, WIDTH, 10);
 			label.setHorizontalAlignment(SwingConstants.CENTER);
 			volumeScalePanel.add(label);
