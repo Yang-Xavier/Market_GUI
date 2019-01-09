@@ -13,7 +13,11 @@ import java.awt.List;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.function.Consumer;
 
 import javax.swing.BoxLayout;
@@ -75,7 +79,8 @@ public class EntryGUI extends JFrame{
 					stock.setTiker(Constant.TICKERMAP.get((String)tickerSelectBox.getSelectedItem()), (String)tickerSelectBox.getSelectedItem());
 					stock.setStart(startDateSelection.getFormatDate());
 					stock.setEnd(endDateSelection.getFormatDate());
-					stock.setNumRows(300);
+					
+					stock.setNumRows(daysBetween(startDateSelection.getFormatDate(),endDateSelection.getFormatDate()));
 					// Open a market viewer
 					openCheckPane(stock);
 				} else {
@@ -124,5 +129,30 @@ public class EntryGUI extends JFrame{
 	// Callback to open the check window
 	private void openCheckPane(CheckingStock stock) {
 		this.callback.accept(stock);
+	}
+	
+	int daysBetween(String startDay, String endDay) {
+	    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+	    Date date1 = null;
+	    Date date2 = null;
+	    try {
+	        date1 = sdf.parse(startDay);
+	        date2 = sdf.parse(endDay);
+	    } catch (ParseException e) {
+	        e.printStackTrace();
+	    }
+	    Calendar cal = Calendar.getInstance();
+	    cal.setTime(date1);
+	    cal.set(Calendar.HOUR_OF_DAY, 0);
+	    cal.set(Calendar.MINUTE, 0);
+	    cal.set(Calendar.SECOND, 0);
+	    long time1 = cal.getTimeInMillis();
+	    cal.setTime(date2);
+	    cal.set(Calendar.HOUR_OF_DAY, 0);
+	    cal.set(Calendar.MINUTE, 0);
+	    cal.set(Calendar.SECOND, 0);
+	    long time2 = cal.getTimeInMillis();
+	    long between_days = (time2 - time1) / (1000 * 3600 * 24);
+	    return Integer.parseInt(String.valueOf(between_days));
 	}
 }

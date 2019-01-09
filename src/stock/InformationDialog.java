@@ -1,10 +1,12 @@
 package stock;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -20,6 +22,7 @@ public class InformationDialog extends JDialog{
 		this.parent = parent;
 		Point positon = parent.getLocation();
 		Dimension size = parent.getSize();
+		getContentPane().setBackground(new Color(55, 58, 62));
 		
 		highLabel = new InformLabel();
 		lowLabel = new InformLabel();
@@ -47,12 +50,20 @@ public class InformationDialog extends JDialog{
 		closeLabel.setText(String.format(close, item.getClose()));
 		openLabel.setText(String.format(open, item.getOpen()));
 		dateLabel.setText(String.format(date, item.getDate()));
-		volumeLabel.setText(String.format(volume, (new BigDecimal(item.getVolume())).toPlainString()));
+		volumeLabel.setText(String.format(volume, processVolume(item.getVolume())));
+	}
+	
+	String processVolume(float data) {
+		String vdata;
+		DecimalFormat df = new DecimalFormat("#,###");
+		vdata = df.format(data);
+		return vdata;
 	}
 	
 	class InformLabel extends JLabel{
 		public InformLabel() {
-			setFont(new Font("arial", Font.BOLD, 15));
+			setFont(new Font("arial", Font.PLAIN, 15));
+			setForeground(new Color(186, 186, 186));
 		}
 	}
 }

@@ -62,6 +62,9 @@ public class MarketView extends JFrame{
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		
+		setBackground(new Color(25, 28, 32));
+		mainPanel.setOpaque(true);
+		mainPanel.setBackground(new Color(25, 28, 32));
 		addWindowListener(new WindowListener() {
 			
 			@Override
@@ -130,7 +133,7 @@ public class MarketView extends JFrame{
 			EmptyLine e4 = new EmptyLine(STEPWIDTH, 20);
 			EmptyLine eline = new EmptyLine(STEPWIDTH, 1);
 			eline.setOpaque(true);
-			eline.setBackground(Color.gray);
+			eline.setBackground(new Color(50, 50, 50));
 			itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS));
 			KLinePanel kLinePanel = new KLinePanel(item.getDrawableStock().getRectangle(), item.getDrawableStock().getLine(), item.getDrawableStock().getColor());
 			VolumePanel volumePanel = new VolumePanel(item.getDrawableStock().getVolumeRectangle(),item.getDrawableStock().getColor());
@@ -151,6 +154,7 @@ public class MarketView extends JFrame{
 		mainPanel.add(scalePanel);
 		for (StockDayItem item: items) {
 			JPanel itemPanel = item.getDrawableStock().getItemPanel();
+			itemPanel.setBackground(null);
 			bindEvent(itemPanel, item);
 			mainPanel.add(itemPanel);
 		}
@@ -165,7 +169,7 @@ public class MarketView extends JFrame{
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
 				JPanel panel = (JPanel)e.getSource();
-				panel.setBackground(Color.gray);
+				panel.setBackground(new Color(100, 100, 100));
 				informationDialog.updateInformation(item);
 			}
 			@Override
@@ -192,9 +196,4 @@ public class MarketView extends JFrame{
 			
 		});
 	}
-	
-	
-	
-	
-	
 }

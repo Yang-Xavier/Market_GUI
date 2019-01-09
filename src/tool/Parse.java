@@ -23,7 +23,7 @@ public class Parse {
 		
 		for(int i =1; i<dataitem.length; i++) {
 			String[] items = dataitem[i].split(",");
-			stockDayItems.add(new StockDayItem(items[0], items[1], items[2], items[3], items[4], items[5]));
+			stockDayItems.add(0, new StockDayItem(items[0], items[1], items[2], items[3], items[4], items[5]));
 			normalisation(items);
 		}
 		
@@ -73,9 +73,9 @@ public class Parse {
 			
 			Color color; 
 			if(data.getClose() > lastClose) {
-				color = new Color(255, 0, 0);
+				color = new Color(234, 95, 89);
 			} else {
-				color = new Color(0, 255, 0);
+				color = new Color(75, 172, 127);
 			}
 			lastClose = data.getClose();
 			
