@@ -2,7 +2,6 @@ package ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Label;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -11,20 +10,16 @@ import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
+import javax.swing.border.MatteBorder;
 
-import stock.EmptyLine;
 import stock.InformationDialog;
 import stock.KLinePanel;
-import stock.ScalePanel;
 import stock.StockDayItem;
 import stock.VolumePanel;
+import stock.PriceScaleBar;
 import tool.CheckingStock;
 import tool.MyRequest;
 import tool.MyURL;
@@ -36,9 +31,9 @@ public class MarketView extends JFrame{
 	
 	JPanel mainPanel;
 	JScrollPane jScrollPane;
-	ScalePanel scalePanel;
 	
 	InformationDialog informationDialog;
+	PriceScaleBar priceScaleBar;
 	
 	final private int WIDTH = 800, HEIGHT = 600;
 	final private int HEADERHEIGHT = 500; 
@@ -56,8 +51,8 @@ public class MarketView extends JFrame{
 		
 		mainPanel = new JPanel();
 		jScrollPane = new JScrollPane();
-		scalePanel = new ScalePanel();
 		informationDialog = new InformationDialog(this);
+		priceScaleBar = new PriceScaleBar();
 		
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -65,6 +60,7 @@ public class MarketView extends JFrame{
 		setBackground(new Color(25, 28, 32));
 		mainPanel.setOpaque(true);
 		mainPanel.setBackground(new Color(25, 28, 32));
+		
 		addWindowListener(new WindowListener() {
 			
 			@Override
@@ -110,15 +106,16 @@ public class MarketView extends JFrame{
 			}
 		});
 	}
-	
+	/**
+	 * Send request, process feedback data and display the data by using the graph*/
 	public void display() {
 		MyURL myURL = new MyURL(stock.getTicker(),stock.getNumRows(),stock.getStart(),stock.getEnd());
 		String feedback = MyRequest.get(myURL);
 		Parse parse = new Parse();
 		dayItems = parse.paeseStockDataToArraylist(feedback);
 		dayItems = parse.processToDrawable(dayItems, HEIGHT, HEADERHEIGHT, STEPWIDTH);
-		scalePanel.setPriceScalePanel(parse.pmax, parse.pmin, HEADERHEIGHT, 4);
-		scalePanel.setVolumeScalePanel(parse.vmax, parse.vmin, HEIGHT-HEADERHEIGHT, 3);
+		priceScaleBar.setPriceScalePanel(parse.pmax, parse.pmin, HEADERHEIGHT, 4);
+		priceScaleBar.setVolumeScalePanel(parse.vmax, parse.vmin, HEIGHT-HEADERHEIGHT, 3);
 		createGraphPanel(dayItems);
 		addAllToPane(dayItems);
 		informationDialog.setVisible(true);
@@ -127,31 +124,21 @@ public class MarketView extends JFrame{
 	void createGraphPanel(ArrayList<StockDayItem> items) {
 		for (StockDayItem item: items) {
 			JPanel itemPanel = new JPanel();
-			EmptyLine e1 = new EmptyLine(STEPWIDTH, 20);
-			EmptyLine e2 = new EmptyLine(STEPWIDTH, 20);
-			EmptyLine e3 = new EmptyLine(STEPWIDTH, 20);
-			EmptyLine e4 = new EmptyLine(STEPWIDTH, 20);
-			EmptyLine eline = new EmptyLine(STEPWIDTH, 1);
-			eline.setOpaque(true);
-			eline.setBackground(new Color(50, 50, 50));
 			itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS));
 			KLinePanel kLinePanel = new KLinePanel(item.getDrawableStock().getRectangle(), item.getDrawableStock().getLine(), item.getDrawableStock().getColor());
 			VolumePanel volumePanel = new VolumePanel(item.getDrawableStock().getVolumeRectangle(),item.getDrawableStock().getColor());
-			kLinePanel.setPreferredSize(new Dimension(STEPWIDTH, HEADERHEIGHT));
-			volumePanel.setPreferredSize(new Dimension(STEPWIDTH, HEIGHT-HEADERHEIGHT));
-			itemPanel.add(e1);
+			kLinePanel.setPreferredSize(new Dimension(STEPWIDTH, HEADERHEIGHT + 40));
+			volumePanel.setPreferredSize(new Dimension(STEPWIDTH, HEIGHT-HEADERHEIGHT + 40));
+			kLinePanel.setBorder(new MatteBorder(0,0,1,0, new Color(50,50,50)));
+			volumePanel.setBorder(new MatteBorder(1,0,0,0, new Color(50,50,50)));
 			itemPanel.add(kLinePanel);
-			itemPanel.add(e2);
-			itemPanel.add(eline);
-			itemPanel.add(e3);
 			itemPanel.add(volumePanel);
-			itemPanel.add(e4);
 			item.getDrawableStock().setItemPanel(itemPanel);
 		}
 	}
 	
 	void addAllToPane(ArrayList<StockDayItem> items) {
-		mainPanel.add(scalePanel);
+		mainPanel.add(priceScaleBar);
 		for (StockDayItem item: items) {
 			JPanel itemPanel = item.getDrawableStock().getItemPanel();
 			itemPanel.setBackground(null);

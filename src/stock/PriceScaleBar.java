@@ -1,23 +1,25 @@
 package stock;
 
+import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Label;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.MatteBorder;
 
 /**This is the price and volume scale panel on the left*/
 
-public class ScalePanel extends JPanel{
+public class PriceScaleBar extends JPanel{
 	JPanel priceScalePanel;
 	JPanel volumeScalePanel;
 	
 	final private int WIDTH = 50;
+	final private int MARGIN = 20;
 	
-	public ScalePanel() {
+	public PriceScaleBar() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(null);
 	}
@@ -28,23 +30,24 @@ public class ScalePanel extends JPanel{
 		priceScalePanel.setPreferredSize(new Dimension(WIDTH, height));
 		priceScalePanel.setBackground(null);
 
+		JLabel plabel = new JLabel("Price/$");
+		plabel.setForeground(new Color(186, 186, 186));
+		plabel.setBounds(0, 5, WIDTH, 10);
+		plabel.setHorizontalAlignment(SwingConstants.CENTER);
+		priceScalePanel.add(plabel);
+		
 		for(int i=0;i<scaleN;i++) {
 			JLabel label = new JLabel();
 			label.setForeground(new Color(186, 186, 186));
 			int ds = Math.round(min+ i*(max-min)/((float)scaleN-1)); 
 			int dh = Math.round(i*(height)/(scaleN-1)); 
 			label.setText(""+ds);
-			label.setBounds(0, height-dh, WIDTH, 10);
+			label.setBounds(0, height-dh+MARGIN, WIDTH, 10);
 			label.setHorizontalAlignment(SwingConstants.CENTER);
 			priceScalePanel.add(label);
 		}
-		JLabel label = new JLabel("Price/$");
-		label.setForeground(new Color(186, 186, 186));
-		EmptyLine line=new EmptyLine(0, 0);
-		EmptyLine line2=new EmptyLine(0,0);
-		line.add(label);
-		this.add(line);
-		this.add(line2);
+		
+		priceScalePanel.setBorder(new MatteBorder(0,0,1,0, new Color(50,50,50)));
 		this.add(priceScalePanel);
 	}
 	
@@ -54,6 +57,12 @@ public class ScalePanel extends JPanel{
 		volumeScalePanel.setPreferredSize(new Dimension(WIDTH, height));
 		volumeScalePanel.setBackground(null);
 		
+		JLabel vlabel = new JLabel("Vol./M");
+		vlabel.setForeground(new Color(186, 186, 186));
+		vlabel.setBounds(0, 5, WIDTH, 10);
+		vlabel.setHorizontalAlignment(SwingConstants.CENTER);
+		volumeScalePanel.add(vlabel);
+		
 		for(int i=0;i<scaleN;i++) {
 			JLabel label = new JLabel();
 			label.setForeground(new Color(186, 186, 186));
@@ -61,17 +70,12 @@ public class ScalePanel extends JPanel{
 			int dh = Math.round(i*(height)/(scaleN-1)); 
 			
 			label.setText(String.format("%.2f", ds));
-			label.setBounds(0, height-dh, WIDTH, 10);
+			label.setBounds(0, height-dh+MARGIN, WIDTH, 10);
 			label.setHorizontalAlignment(SwingConstants.CENTER);
 			volumeScalePanel.add(label);
 		}
-		JLabel label = new JLabel("Vol./M");
-		label.setForeground(new Color(186, 186, 186));
-		EmptyLine line=new EmptyLine(0, 0);
-		EmptyLine line2=new EmptyLine(0,0);
-		line.add(label);
-		this.add(line);
-		this.add(line2);
+		
+		volumeScalePanel.setBorder(new MatteBorder(1,0,0,0, new Color(50,50,50)));
 		this.add(volumeScalePanel);
 	}
 	
@@ -82,5 +86,4 @@ public class ScalePanel extends JPanel{
 	public JPanel getVolumeScalePanel() {
 		return this.volumeScalePanel;
 	}
-	
 }

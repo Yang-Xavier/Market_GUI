@@ -16,7 +16,7 @@ import stock.StockDayItem;
 public class Parse {
 	public float pmax= Float.MIN_VALUE, pmin=Float.MAX_VALUE, pmiddle, pscale; // These variables are price's parameters of normalisation
 	public float vmax= Float.MIN_VALUE, vmin= Float.MAX_VALUE, vmiddle, vscale; // These variables are volume's parameters of normalisation
-	
+	public int MARGIN = 20;
 	public ArrayList<StockDayItem> paeseStockDataToArraylist (String data) {
 		ArrayList<StockDayItem> stockDayItems = new ArrayList<StockDayItem>();
 		String[] dataitem = data.split("\n");
@@ -34,8 +34,10 @@ public class Parse {
 		return stockDayItems;
 	}
 	
-	// This function would be complex because all the stock information would be calculated right here and build the drawing information
-	// All data type would be translate into Integer
+	/**
+	 *  This function would be complex because all the stock information would be calculated right here and build the drawing information
+	*	All data type would be translate into Integer
+	**/
 	public ArrayList<StockDayItem> processToDrawable(ArrayList<StockDayItem> items, int height, int headerHeight, int stepWidth) { 
 		// The height is the canvas', the headerHeight is the header canvas'
 		int widthMiddle = stepWidth/2;
@@ -50,15 +52,15 @@ public class Parse {
 			Line line = new Line();		// Candle line
 			line.startX = widthMiddle;
 			line.endX = widthMiddle;
-			line.startY = headerHeightMiddle - doNormalisationAndSaveToInt(data.getHight(), headerHeight, pscale, pmiddle);
-			line.endY = headerHeightMiddle - doNormalisationAndSaveToInt(data.getLow(), headerHeight, pscale, pmiddle);
+			line.startY = headerHeightMiddle - doNormalisationAndSaveToInt(data.getHight(), headerHeight, pscale, pmiddle) + MARGIN;
+			line.endY = headerHeightMiddle - doNormalisationAndSaveToInt(data.getLow(), headerHeight, pscale, pmiddle) + MARGIN;
 			
 			Rectangle rectangle = new Rectangle(); // Candle body
 			rectangle.x = widthMiddle - itemWidth/2;
 			if (data.getOpen()>data.getClose()) {
-				rectangle.y = headerHeightMiddle - doNormalisationAndSaveToInt(data.getOpen(), headerHeight, pscale, pmiddle);
+				rectangle.y = headerHeightMiddle - doNormalisationAndSaveToInt(data.getOpen(), headerHeight, pscale, pmiddle) + MARGIN;
 			} else {
-				rectangle.y = headerHeightMiddle - doNormalisationAndSaveToInt(data.getClose(), headerHeight, pscale, pmiddle);
+				rectangle.y = headerHeightMiddle - doNormalisationAndSaveToInt(data.getClose(), headerHeight, pscale, pmiddle) + MARGIN;
 			} 
 			rectangle.width = itemWidth;
 			float normalClose = doNormalisationAndSaveToFloat(data.getClose(), 1, pscale, pmiddle);
@@ -67,7 +69,7 @@ public class Parse {
 			
 			Rectangle volumeRectangle = new Rectangle(); // Volume 
 			volumeRectangle.x = widthMiddle - itemWidth/2;
-			volumeRectangle.y = footerHeight - doNormalisationAndSaveToInt(data.getVolume(), height-headerHeight, vscale, vmiddle);
+			volumeRectangle.y = footerHeight - doNormalisationAndSaveToInt(data.getVolume(), height-headerHeight, vscale, vmiddle)+ 2*MARGIN;
 			volumeRectangle.width = itemWidth;
 			volumeRectangle.height = doNormalisationAndSaveToInt(data.getVolume(), height-headerHeight, vscale, vmiddle);
 			

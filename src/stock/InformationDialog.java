@@ -16,7 +16,7 @@ public class InformationDialog extends JDialog{
 	private int WIDTH = 200,HEIGHT = 200;
 	private JFrame parent;
 	private InformLabel  highLabel, lowLabel, closeLabel, openLabel, volumeLabel, dateLabel;
-	private String high = "   High: %.2f", low = "   Low: %.2f", close = "   Close: %.2f", open = "   Open: %.2f", volume = "   Volume: %s", date = "   Date: %s";
+	private String high = "   High: %.2f USD", low = "   Low: %.2f USD", close = "   Close: %.2f USD", open = "   Open: %.2f USD", volume = "   Volume: %s", date = "   Date: %s";
 	
 	public InformationDialog(JFrame parent) {
 		this.parent = parent;
@@ -37,10 +37,10 @@ public class InformationDialog extends JDialog{
 		setLayout(new GridLayout(6, 1));
 		
 		add(dateLabel);
-		add(openLabel);
-		add(closeLabel);
 		add(highLabel);
 		add(lowLabel);
+		add(openLabel);
+		add(closeLabel);
 		add(volumeLabel);
 	}
 	
@@ -51,6 +51,11 @@ public class InformationDialog extends JDialog{
 		openLabel.setText(String.format(open, item.getOpen()));
 		dateLabel.setText(String.format(date, item.getDate()));
 		volumeLabel.setText(String.format(volume, processVolume(item.getVolume())));
+		
+		Color color = item.getDrawableStock().getColor();
+		openLabel.setForeground(color);
+		volumeLabel.setForeground(color);
+		closeLabel.setForeground(color);
 	}
 	
 	String processVolume(float data) {

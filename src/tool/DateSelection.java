@@ -91,14 +91,14 @@ public class DateSelection  {
 	/** 
 	 * 
 	 * The part in the below is the DateSelection UI component*/
-	JComboBox yearComboBox;
-	JComboBox monthComboBox = new JComboBox();
-	JComboBox dayComboBox = new JComboBox();
+	JComboBox<String> yearComboBox;
+	JComboBox<String>  monthComboBox;
+	JComboBox<String>  dayComboBox;
 	public JPanel getDateSelectionPanel() {
 		JPanel p = new JPanel();
-		yearComboBox = new JComboBox();
-		monthComboBox = new JComboBox();
-		dayComboBox = new JComboBox();
+		yearComboBox = new JComboBox<String> ();
+		monthComboBox = new JComboBox<String> ();
+		dayComboBox = new JComboBox<String> ();
 		
 		yearComboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -146,9 +146,9 @@ public class DateSelection  {
 }
 	
 	public void updateDateSelection() {
-		yearComboBox.setModel(new DefaultComboBoxModel(getYears()));
-		monthComboBox.setModel(new DefaultComboBoxModel(getMonths()));
-		dayComboBox.setModel(new DefaultComboBoxModel(getDays()));
+		yearComboBox.setModel(new DefaultComboBoxModel<String>(getYears()));
+		monthComboBox.setModel(new DefaultComboBoxModel<String>(getMonths()));
+		dayComboBox.setModel(new DefaultComboBoxModel<String>(getDays()));
 		
 		yearComboBox.setSelectedIndex(getSelectedYear()-1900);
 		monthComboBox.setSelectedIndex(getSelectedMonth()-1);
