@@ -18,7 +18,7 @@ public class DateSelection  {
 	private Calendar now = Calendar.getInstance();
 	private int minYear = 1900, maxYear = now.get(Calendar.YEAR);
 	private int selectedYear = minYear, selectedMonth = 1, selectedDay = 1;
-	private String month30d = "04060912"; // these month contain 30 days;
+	private String month30d = "04060911"; // these month contain 30 days;
 	
 	public String[] getDays() {
 		int maxDay = 31;

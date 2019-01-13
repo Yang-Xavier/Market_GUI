@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.MatteBorder;
@@ -113,6 +114,11 @@ public class MarketView extends JFrame{
 		String feedback = MyRequest.get(myURL);
 		Parse parse = new Parse();
 		dayItems = parse.paeseStockDataToArraylist(feedback);
+		if(dayItems.size()<=0) {
+			JOptionPane.showMessageDialog(null, "Oops... No data for you selecting date, please select another date.","Notice",JOptionPane.WARNING_MESSAGE);  
+			this.setVisible(false);
+			return;
+		}
 		dayItems = parse.processToDrawable(dayItems, HEIGHT, HEADERHEIGHT, STEPWIDTH);
 		priceScaleBar.setPriceScalePanel(parse.pmax, parse.pmin, HEADERHEIGHT, 4);
 		priceScaleBar.setVolumeScalePanel(parse.vmax, parse.vmin, HEIGHT-HEADERHEIGHT, 3);
